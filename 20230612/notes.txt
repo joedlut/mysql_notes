@@ -70,7 +70,7 @@ oracle 默认的隔离级别  读提交  oracle ---> mysql 一定也设置成读
 避免使用长事务  显式启动事务语句  set autocommit = 1, 启动事务  begin /start transaction |  commit or rollback 提交事务  or 回滚事务 |  commit work and chain 提交事务并启动下一个事务，省去了begin
 
 查询事务的表 information_schema.INNODB_TRX    
-
+================================================================
 
 
 
