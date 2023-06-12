@@ -54,6 +54,23 @@ redo log , write pos      checkpoint
 
 innodb_flush_log_at_trx_commit 建议设置为1，保证每次事务的redo log都持久化到磁盘，以保证mysql异常重启后数据不会丢失。
 sync_binlog 建议也设置成1，保证每次事务的binlog都持久化到磁盘,保证mysql异常重启后，binlog不会丢失。
+----------------------------------------------------------------
+事务的隔离级别：
+1.读未提交  一个事务还没提交，它做的变更就可以被其他的事务看到
+2.读提交： 一个事务提交之后，它做的变更才可以被其他事务看到
+3.可重复读： 一个事务执行过程中看到的数据，总是跟这个事务启动时看到的数据是一致的。未提交变更对于其他事务也是不可见
+4.串行化: 同一行记录，写加写锁，读加读锁，读写锁冲突，后访问的事务必须等前一个事务执行完成，才可以继续执行
+
+oracle 默认的隔离级别  读提交  oracle ---> mysql 一定也设置成读提交  transaction-isolation=READ-COMMITED
+隔离级别越高，效率越低
+
+不建议使用长事务 事务提交之前，数据库里面可能用到的回滚记录都要保留，会导致占用大量的空间
+
+误用长事务  set autocommit = 0 
+避免使用长事务  显式启动事务语句  set autocommit = 1, 启动事务  begin /start transaction |  commit or rollback 提交事务  or 回滚事务 |  commit work and chain 提交事务并启动下一个事务，省去了begin
+
+查询事务的表 information_schema.INNODB_TRX    
+
 
 
 
