@@ -132,7 +132,22 @@ MySQL 5.6后引入索引下推优化，在遍历索引的过程中，对索引�
 如何重建索引？
 alter table T engine = InnoDB
 
-
+习题：
+create table geek(
+    a int(11) not null,
+    b int(11) not null,
+    c int(11) not null,
+    d int(11) not null,
+    primary key(a,b),
+    key c (c),
+    key ca(c,a),
+    key cb(c,b)
+)engine=InnoDB
+select * from geek where c=N order by a limit 1;
+select * from geek where c=N order by b limit 1;
+对于 ca 联合索引可以去掉
+对于 cb 联合索引可以保留
+对于二级索引c,会默认跟主键做联合索引，索引c的排序为cab,索引cb的排序为cba, ca可以去掉，cb可以保留
 
 
 
